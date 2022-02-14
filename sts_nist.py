@@ -18,11 +18,15 @@ def symmetrical_nist(text_pair):
         None
     """
 
+    # save each sentence in the pair to variables
     t1, t2 = text_pair
 
+    # input tokenized text
     t1_toks = word_tokenize(t1.lower())
     t2_toks = word_tokenize(t2.lower())
 
+    # try / except for each side because of ZeroDivisionError
+    # 0.0 is lowest score - give that if ZeroDivisionError
     try:
         nist_1 = sentence_nist([t1_toks, ], t2_toks)
     except ZeroDivisionError:
@@ -35,6 +39,7 @@ def symmetrical_nist(text_pair):
         # print(f'\n\n\nno NIST, {i}')
         nist_2 = 0.0
 
+    # return the symmetrical similarity score
     return nist_1 + nist_2
 
 
