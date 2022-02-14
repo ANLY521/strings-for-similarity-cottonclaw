@@ -38,8 +38,9 @@ def main(sts_data):
     """
 
     # TODO 1: define a function to read the data in util
+    # read the data and returns a list of sentence pairs and similarity scores
     texts, labels = parse_sts(sts_data)
-
+    # output the number of sentence pairs in the data
     print(f"Found {len(texts)} STS pairs")
 
     # take a sample of sentences so the code runs fast for faster debugging
