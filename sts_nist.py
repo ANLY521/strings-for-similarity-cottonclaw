@@ -86,11 +86,18 @@ def main(sts_data):
 
     # This assertion verifies that symmetrical_nist is symmetrical
     # if the assertion holds, execution continues. If it does not, the program crashes
+
+    # grab the first sentence pair
     first_pair = texts[0]
+    # output the first sentence pair
     print(first_pair)
+    # save each sentence to variables
     text_a, text_b = first_pair
+    # calculate the symmetrical similarity score for each sentence order
     nist_ab = symmetrical_nist((text_a, text_b))
     nist_ba = symmetrical_nist((text_b, text_a))
+    # This assertion verifies that symmetrical_nist is symmetrical
+    # if the assertion holds, execution continues. If it does not, the program crashes
     assert nist_ab == nist_ba, f"Symmetrical NIST is not symmetrical! Got {nist_ab} and {nist_ba}"
 
     # TODO 3: find and print the sentences from the sample with the highest and lowest scores
