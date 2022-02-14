@@ -60,7 +60,7 @@ def main(sts_data):
     # read the data and returns a list of sentence pairs and similarity scores
     texts, labels = parse_sts(sts_data)
     # output the number of sentence pairs in the data
-    print(f"Found {len(texts)} STS pairs")
+    print(f"Found {len(texts)} STS pairs\n")
 
     # take a sample of sentences so the code runs fast for faster debugging
     # when you're done debugging, you may want to run this on more!
@@ -84,13 +84,10 @@ def main(sts_data):
         # append the symmetrical similarity score for the current text pair
         scores.append(nist_total)
 
-    # This assertion verifies that symmetrical_nist is symmetrical
-    # if the assertion holds, execution continues. If it does not, the program crashes
-
     # grab the first sentence pair
     first_pair = texts[0]
     # output the first sentence pair
-    print(first_pair)
+    print(first_pair, '\n')
     # save each sentence to variables
     text_a, text_b = first_pair
     # calculate the symmetrical similarity score for each sentence order
@@ -101,6 +98,27 @@ def main(sts_data):
     assert nist_ab == nist_ba, f"Symmetrical NIST is not symmetrical! Got {nist_ab} and {nist_ba}"
 
     # TODO 3: find and print the sentences from the sample with the highest and lowest scores
+    # find the index of the minimum score
+    min_score_index = np.argmin(scores)
+    # use the index to extract the minimum score
+    min_score = scores[min_score_index]
+    # output the lowest score
+    print(f'Lowest score: {min_score}')
+    # output the sentences from the sample with the lowest score
+    print(sample_text[min_score_index], '\n')
+    # assert this score = the calculated score of the associated sentence pair
+    assert min_score == symmetrical_nist(sample_text[min_score_index])
+
+    # find the index of the maximum score
+    max_score_index = np.argmax(scores)
+    # use the index to extract the maximum score
+    max_score = scores[max_score_index]
+    # output the highest score
+    print(f'Highest score: {max_score}')
+    # output the sentences from the sample with the lowest score
+    print(sample_text[max_score_index])
+    # assert this score = the calculated score of the associated sentence pair
+    assert max_score == symmetrical_nist(sample_text[max_score_index])
 
 
 if __name__ == "__main__":
