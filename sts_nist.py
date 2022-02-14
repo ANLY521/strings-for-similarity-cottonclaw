@@ -18,8 +18,22 @@ def symmetrical_nist(text_pair):
         None
     """
 
-    nist_1 = 0.0
-    nist_2 = 0.0
+    t1, t2 = text_pair
+
+    t1_toks = word_tokenize(t1.lower())
+    t2_toks = word_tokenize(t2.lower())
+
+    try:
+        nist_1 = sentence_nist([t1_toks, ], t2_toks)
+    except ZeroDivisionError:
+        # print(f'\n\n\nno NIST, {i}')
+        nist_1 = 0.0
+
+    try:
+        nist_2 = sentence_nist([t2_toks, ], t1_toks)
+    except ZeroDivisionError:
+        # print(f'\n\n\nno NIST, {i}')
+        nist_2 = 0.0
 
     return nist_1 + nist_2
 
@@ -50,15 +64,19 @@ def main(sts_data):
     # zip them together to make tuples of text associated with labels
     sample_data = zip(sample_labels, sample_text)
 
+    # initialize a list for storing the symmetrical similarity of each pair
     scores = []
-    for label,text_pair in sample_data:
+    # for the list of labels and list of text pairs in the sample data
+    for label, text_pair in sample_data:
+        # output the assigned string similarity score
         print(label)
-        print(f"Sentences: {texts[0]}\t{texts[1]}")
+        # output the sentence pair
+        print(f"Sentences: {text_pair[0]}\t{text_pair[1]}")
         # TODO 2: Calculate NIST for each pair of sentences
-        # Define the function symmetrical_nist
-
         nist_total = symmetrical_nist(text_pair)
+        # compare the assigned similarity score to the symmetrical score
         print(f"Label: {label}, NIST: {nist_total:0.02f}\n")
+        # append the symmetrical similarity score for the current text pair
         scores.append(nist_total)
 
     # This assertion verifies that symmetrical_nist is symmetrical
