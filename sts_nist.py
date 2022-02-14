@@ -6,19 +6,36 @@ import numpy as np
 
 
 def symmetrical_nist(text_pair):
+    """Calculates symmetrical similarity as NIST(a,b) + NIST(b,a)
+
+    Args:
+        text_pair (tuple): A tuple of two strings to compare
+
+    Returns:
+        float: The symmetrical similarity of the two strings
+
+    Raises:
+        None
     """
-    Calculates symmetrical similarity as NIST(a,b) + NIST(b,a).
-    :param text_pair: iterable to two strings to compare
-    :return: a float
-    """
+
     nist_1 = 0.0
     nist_2 = 0.0
 
     return nist_1 + nist_2
 
+
 def main(sts_data):
-    """Calculate NIST metric for pairs of strings
-    Data is formatted as in the STS benchmark"""
+    """Calculates NIST metric for pairs of strings
+
+    Args:
+        sts_data (str): The path to the sts benchmark file
+
+    Returns:
+        None
+
+    Raises:
+        None
+    """
 
     # TODO 1: define a function to read the data in util
     texts, labels = parse_sts(sts_data)
@@ -55,7 +72,6 @@ def main(sts_data):
     # TODO 3: find and print the sentences from the sample with the highest and lowest scores
 
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--sts_data", type=str, default="stsbenchmark/sts-dev.csv",
@@ -63,3 +79,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     main(args.sts_data)
+
