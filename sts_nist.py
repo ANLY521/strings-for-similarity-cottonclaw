@@ -1,3 +1,4 @@
+# imports
 from nltk import word_tokenize
 from nltk.translate.nist_score import sentence_nist
 from util import parse_sts
@@ -15,7 +16,7 @@ def symmetrical_nist(text_pair):
         float: The symmetrical similarity of the two strings
 
     Raises:
-        None
+        ZeroDivisionError: If a division by 0 occurs when computing NIST score
     """
 
     # save each sentence in the pair to variables
