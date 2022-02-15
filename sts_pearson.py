@@ -8,7 +8,7 @@ def main(sts_data):
        string similarity metrics
 
     Args:
-        sts_data (str): The path to the STS benchmark file
+        sts_data (str): The path to the STS benchmark partition to implement
 
     Returns:
         None
@@ -18,9 +18,10 @@ def main(sts_data):
     """
 
     # TODO 1: read the dataset; implement in util.py
+    # read the data and return a list of sentence pairs and similarity scores
     texts, labels = parse_sts(sts_data)
-
-    print(f"Found {len(texts)} STS pairs")
+    # output the number of sentence pairs in the data set
+    print(f"Found {len(texts)} STS pairs\n")
 
     # TODO 2: Calculate each of the the metrics here for each text pair in the dataset
     # HINT: Longest common substring can be complicated. Investigate difflib.SequenceMatcher for a good option.
