@@ -29,13 +29,13 @@ def symmetrical_nist(text_pair):
     # try / except for each side because of ZeroDivisionError
     # 0.0 is lowest score - give that if ZeroDivisionError
     try:
-        nist_1 = sentence_nist([t1_toks, ], t2_toks)
+        nist_1 = sentence_nist([t1_toks], t2_toks)
     except ZeroDivisionError:
         # print(f'\n\n\nno NIST, {i}')
         nist_1 = 0.0
 
     try:
-        nist_2 = sentence_nist([t2_toks, ], t1_toks)
+        nist_2 = sentence_nist([t2_toks], t1_toks)
     except ZeroDivisionError:
         # print(f'\n\n\nno NIST, {i}')
         nist_2 = 0.0
