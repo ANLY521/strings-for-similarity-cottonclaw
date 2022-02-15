@@ -4,8 +4,18 @@ from util import parse_sts
 
 
 def main(sts_data):
-    """Calculate pearson correlation between semantic similarity scores and string similarity metrics.
-    Data is formatted as in the STS benchmark"""
+    """Calculates Pearson correlation between semantic similarity scores and
+       string similarity metrics
+
+    Args:
+        sts_data (str): The path to the STS benchmark file
+
+    Returns:
+        None
+
+    Raises:
+        None
+    """
 
     # TODO 1: read the dataset; implement in util.py
     texts, labels = parse_sts(sts_data)
