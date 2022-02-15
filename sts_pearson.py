@@ -4,6 +4,7 @@ from util import parse_sts
 from nltk import word_tokenize
 from nltk.translate.nist_score import sentence_nist
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
+from nltk.metrics.distance import edit_distance
 
 
 def main(sts_data):
@@ -52,6 +53,7 @@ def main(sts_data):
     """
 
     # BLEU
+    """
     scores = []
     sf = SmoothingFunction()
     for text_pair in texts:
@@ -66,14 +68,27 @@ def main(sts_data):
             bleu_ba = sentence_bleu([t2_toks], t1_toks, smoothing_function=sf.method0)
         except ZeroDivisionError:
             bleu_ba = 0
-        # assert bleu_ab == bleu_ba, f'Symmetrical NIST is not symmetrical! Got {nist_ab} and {nist_ba}'
+        # assert bleu_ab == bleu_ba, f'Symmetrical BLEU is not symmetrical! Got {bleu_ab} and {bleu_ba}'
         scores.append(bleu_ab)
     score = pearsonr(scores, labels)[0]
     print(f'BLEU correlation: {score:.03f}')
+    """
+
+    # Edit Dist
+    scores = []
+    for text_pair in texts:
+        t1, t2 = text_pair
+        t1_low = t1.lower()
+        t2_low = t2.lower()
+        dist_ab = edit_distance(t1_low, t2_low)
+        dist_ba = edit_distance(t2_low, t1_low)
+        # assert dist_ab == dist_ba, f'Symmetrical Edit Distance is not symmetrical! Got {dist_ab} and {dist_ba}'
+        scores.append(dist_ab)
+    score = pearsonr(scores, labels)[0]
+    print(f'Edit Distance correlation: {score:.03f}')
 
     # WER
     # LCS
-    # ED
 
     # define a function for calculating either NIST or BLEU metric
     def nist_or_bleu_calc(text_pair, metric):
