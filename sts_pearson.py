@@ -3,6 +3,7 @@ import argparse
 from util import parse_sts
 from nltk import word_tokenize
 from nltk.translate.nist_score import sentence_nist
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 
 
 def main(sts_data):
@@ -30,6 +31,7 @@ def main(sts_data):
     score_types = ["NIST", "BLEU", "Word Error Rate", "Longest common substring", "Edit Distance"]
 
     # NIST
+    """
     scores = []
     for text_pair in texts:
         t1, t2 = text_pair
@@ -47,8 +49,28 @@ def main(sts_data):
         scores.append(nist_ab)
     score = pearsonr(scores, labels)[0]
     print(f'NIST correlation: {score:.03f}')
+    """
 
     # BLEU
+    scores = []
+    sf = SmoothingFunction()
+    for text_pair in texts:
+        t1, t2 = text_pair
+        t1_toks = word_tokenize(t1.lower())
+        t2_toks = word_tokenize(t2.lower())
+        try:
+            bleu_ab = sentence_bleu([t1_toks], t2_toks, smoothing_function=sf.method0)
+        except ZeroDivisionError:
+            bleu_ab = 0
+        try:
+            bleu_ba = sentence_bleu([t2_toks], t1_toks, smoothing_function=sf.method0)
+        except ZeroDivisionError:
+            bleu_ba = 0
+        # assert bleu_ab == bleu_ba, f'Symmetrical NIST is not symmetrical! Got {nist_ab} and {nist_ba}'
+        scores.append(bleu_ab)
+    score = pearsonr(scores, labels)[0]
+    print(f'BLEU correlation: {score:.03f}')
+
     # WER
     # LCS
     # ED
