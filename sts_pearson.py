@@ -5,6 +5,7 @@ from nltk import word_tokenize
 from nltk.translate.nist_score import sentence_nist
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from nltk.metrics.distance import edit_distance
+from difflib import SequenceMatcher
 
 
 def main(sts_data):
@@ -74,7 +75,8 @@ def main(sts_data):
     print(f'BLEU correlation: {score:.03f}')
     """
 
-    # Edit Dist & WER
+    # Edit Dist
+    """
     scores = []
     wer = []
     for text_pair in texts:
@@ -93,8 +95,23 @@ def main(sts_data):
     score_wer = pearsonr(wer, labels)[0]
     print(f'Edit Distance correlation: {score:.03f}')
     print(f'Word Error Rate correlation: {score_wer:.03f}')
+    """
 
     # LCS
+    lengths = []
+    for text_pair in texts:
+        t1, t2 = text_pair
+        t1_low = t1.lower()
+        t2_low = t2.lower()
+        length_of_LCS = (
+            SequenceMatcher(None, t1_low, t2_low)
+            .find_longest_match(0, len(t1_low), 0, len(t2_low))
+            .size
+        )
+        lengths.append(length_of_LCS)
+    score = pearsonr(lengths, labels)[0]
+    print(f'Longest Common Substring correlation: {score:.03f}')
+    exit()
 
     # define a function for calculating either NIST or BLEU metric
     def nist_or_bleu_calc(text_pair, metric):
