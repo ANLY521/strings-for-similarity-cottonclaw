@@ -46,7 +46,7 @@ def main(sts_data):
             nist_ba = sentence_nist([t2_toks], t1_toks)
         except ZeroDivisionError:
             nist_ba = 0
-        # assert nist_ab == nist_ba, f'Symmetrical NIST is not symmetrical! Got {nist_ab} and {nist_ba}'
+        # assert nist_ab == nist_ba, f'NIST is not symmetrical! Got {nist_ab} and {nist_ba}'
         scores.append(nist_ab)
     score = pearsonr(scores, labels)[0]
     print(f'NIST correlation: {score:.03f}')
@@ -68,26 +68,32 @@ def main(sts_data):
             bleu_ba = sentence_bleu([t2_toks], t1_toks, smoothing_function=sf.method0)
         except ZeroDivisionError:
             bleu_ba = 0
-        # assert bleu_ab == bleu_ba, f'Symmetrical BLEU is not symmetrical! Got {bleu_ab} and {bleu_ba}'
+        # assert bleu_ab == bleu_ba, f'BLEU is not symmetrical! Got {bleu_ab} and {bleu_ba}'
         scores.append(bleu_ab)
     score = pearsonr(scores, labels)[0]
     print(f'BLEU correlation: {score:.03f}')
     """
 
-    # Edit Dist
+    # Edit Dist & WER
     scores = []
+    wer = []
     for text_pair in texts:
         t1, t2 = text_pair
         t1_low = t1.lower()
         t2_low = t2.lower()
+        t1_toks = word_tokenize(t1_low)
+        t2_toks = word_tokenize(t2_low)
         dist_ab = edit_distance(t1_low, t2_low)
         dist_ba = edit_distance(t2_low, t1_low)
-        # assert dist_ab == dist_ba, f'Symmetrical Edit Distance is not symmetrical! Got {dist_ab} and {dist_ba}'
+        # assert dist_ab == dist_ba, f'Edit Distance is not symmetrical! Got {dist_ab} and {dist_ba}'
+        # assert len(t1_toks) == len(t2_toks), 'Word Error Rate is not symmetrical! Number of words varies'
         scores.append(dist_ab)
+        wer.append(dist_ab/len(t1_toks))
     score = pearsonr(scores, labels)[0]
+    score_wer = pearsonr(wer, labels)[0]
     print(f'Edit Distance correlation: {score:.03f}')
+    print(f'Word Error Rate correlation: {score_wer:.03f}')
 
-    # WER
     # LCS
 
     # define a function for calculating either NIST or BLEU metric
