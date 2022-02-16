@@ -1,10 +1,11 @@
+# imports
 from scipy.stats import pearsonr
 import argparse
 from util import parse_sts
 from nltk import word_tokenize
 from nltk.translate.nist_score import sentence_nist
-from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 import warnings
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from nltk.metrics.distance import edit_distance
 from difflib import SequenceMatcher
 
