@@ -101,28 +101,34 @@ def main(sts_data):
         t2_toks = word_tokenize(t2.lower())
         wer_ab = edit_distance(t1_toks, t2_toks)/len(t1_toks)
         wer_ba = edit_distance(t2_toks, t1_toks)/len(t2_toks)
-        # assert len(t1_toks) == len(t2_toks), f'Word Error Rate is not symmetrical! Number of words varies'
+        # assert len(t1_toks) == len(t2_toks), 'Word Error Rate is not symmetrical! Number of words varies'
         scores.append(wer_ab + wer_ba)
     score = pearsonr(scores, labels)[0]
     print(f'Word Error Rate correlation: {score:.03f}')
     """
 
     # LCS
-    """
     lengths = []
     for text_pair in texts:
         t1, t2 = text_pair
         t1_low = t1.lower()
         t2_low = t2.lower()
-        length_of_LCS = (
+        LCS_ab = (
             SequenceMatcher(None, t1_low, t2_low)
             .find_longest_match(0, len(t1_low), 0, len(t2_low))
             .size
         )
-        lengths.append(length_of_LCS)
+        """
+        LCS_ba = (
+            SequenceMatcher(None, t2_low, t1_low)
+            .find_longest_match(0, len(t2_low), 0, len(t1_low))
+            .size
+        )
+        """
+        # assert LCS_ab == LCS_ba, f'Longest Common Substring is not symmetrical! Got {LCS_ab} and {LCS_ba}'
+        lengths.append(LCS_ab)
     score = pearsonr(lengths, labels)[0]
     print(f'Longest Common Substring correlation: {score:.03f}')
-    """
 
     # define a function for calculating either NIST or BLEU metric
     def nist_or_bleu_calc(text_pair, metric):
