@@ -48,12 +48,14 @@ def main(sts_data):
             nist_ba = sentence_nist([t2_toks], t1_toks)
         except ZeroDivisionError:
             nist_ba = 0
+        # assert nist_ab == nist_ba, f'NIST is not symmetrical! Got {dist_ab} and {dist_ba}'
         scores.append(nist_ab + nist_ba)
     score = pearsonr(scores, labels)[0]
     print(f'NIST correlation: {score:.03f}')
     """
 
     # BLEU
+    """
     warnings.filterwarnings('ignore')
     scores = []
     sf = SmoothingFunction()
@@ -69,10 +71,11 @@ def main(sts_data):
             bleu_ba = sentence_bleu([t2_toks], t1_toks, smoothing_function=sf.method0)
         except ZeroDivisionError:
             bleu_ba = 0
+        # assert bleu_ab == bleu_ba, f'NIST is not symmetrical! Got {dist_ab} and {dist_ba}'
         scores.append(bleu_ab + bleu_ba)
     score = pearsonr(scores, labels)[0]
     print(f'BLEU correlation: {score:.03f}')
-    exit()
+    """
 
     # Edit Dist
     """
@@ -82,7 +85,7 @@ def main(sts_data):
         t1_low = t1.lower()
         t2_low = t2.lower()
         dist_ab = edit_distance(t1_low, t2_low)
-        dist_ba = edit_distance(t2_low, t1_low)
+        # dist_ba = edit_distance(t2_low, t1_low)
         # assert dist_ab == dist_ba, f'Edit Distance is not symmetrical! Got {dist_ab} and {dist_ba}'
         scores.append(dist_ab)
     score = pearsonr(scores, labels)[0]
@@ -90,7 +93,6 @@ def main(sts_data):
     """
 
     # WER
-    """
     scores = []
     for text_pair in texts:
         t1, t2 = text_pair
@@ -98,10 +100,11 @@ def main(sts_data):
         t2_toks = word_tokenize(t2.lower())
         wer_ab = edit_distance(t1_toks, t2_toks)/len(t1_toks)
         wer_ba = edit_distance(t2_toks, t1_toks)/len(t2_toks)
+        # assert len(t1_toks) == len(t2_toks), f'Word Error Rate is not symmetrical! Number of words varies'
         scores.append(wer_ab + wer_ba)
     score = pearsonr(scores, labels)[0]
     print(f'Word Error Rate correlation: {score:.03f}')
-    """
+    exit()
 
     # LCS
     """
