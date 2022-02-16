@@ -6,6 +6,7 @@ from nltk.translate.nist_score import sentence_nist
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 from nltk.metrics.distance import edit_distance
 from difflib import SequenceMatcher
+import numpy as np
 
 
 def main(sts_data):
@@ -78,26 +79,32 @@ def main(sts_data):
     # Edit Dist
     """
     scores = []
-    wer = []
     for text_pair in texts:
         t1, t2 = text_pair
         t1_low = t1.lower()
         t2_low = t2.lower()
-        t1_toks = word_tokenize(t1_low)
-        t2_toks = word_tokenize(t2_low)
         dist_ab = edit_distance(t1_low, t2_low)
         dist_ba = edit_distance(t2_low, t1_low)
         # assert dist_ab == dist_ba, f'Edit Distance is not symmetrical! Got {dist_ab} and {dist_ba}'
-        # assert len(t1_toks) == len(t2_toks), 'Word Error Rate is not symmetrical! Number of words varies'
         scores.append(dist_ab)
-        wer.append(dist_ab/len(t1_toks))
     score = pearsonr(scores, labels)[0]
-    score_wer = pearsonr(wer, labels)[0]
     print(f'Edit Distance correlation: {score:.03f}')
-    print(f'Word Error Rate correlation: {score_wer:.03f}')
     """
 
+    # WER
+    scores = []
+    for text_pair in texts:
+        t1, t2 = text_pair
+        t1_toks = word_tokenize(t1.lower())
+        t2_toks = word_tokenize(t2.lower())
+        wer_ab = edit_distance(t1_toks, t2_toks)/len(t1_toks)
+        wer_ba = edit_distance(t2_toks, t1_toks)/len(t2_toks)
+        scores.append(wer_ab + wer_ba)
+    score = pearsonr(scores, labels)[0]
+    print(f'Word Error Rate correlation: {score:.03f}')
+
     # LCS
+    """
     lengths = []
     for text_pair in texts:
         t1, t2 = text_pair
@@ -111,7 +118,7 @@ def main(sts_data):
         lengths.append(length_of_LCS)
     score = pearsonr(lengths, labels)[0]
     print(f'Longest Common Substring correlation: {score:.03f}')
-    exit()
+    """
 
     # define a function for calculating either NIST or BLEU metric
     def nist_or_bleu_calc(text_pair, metric):
