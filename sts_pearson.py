@@ -93,6 +93,7 @@ def main(sts_data):
     """
 
     # WER
+    """
     scores = []
     for text_pair in texts:
         t1, t2 = text_pair
@@ -104,7 +105,7 @@ def main(sts_data):
         scores.append(wer_ab + wer_ba)
     score = pearsonr(scores, labels)[0]
     print(f'Word Error Rate correlation: {score:.03f}')
-    exit()
+    """
 
     # LCS
     """
