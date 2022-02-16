@@ -32,124 +32,112 @@ def main(sts_data):
 
     # TODO 2: Calculate each of the the metrics here for each text pair in the dataset
     # HINT: Longest common substring can be complicated. Investigate difflib.SequenceMatcher for a good option.
-    score_types = ["NIST", "BLEU", "Word Error Rate", "Longest common substring", "Edit Distance"]
+    score_types = ["NIST", "BLEU", "WER", "LCS", "Edit Dist"]
 
-    # NIST
-    """
-    scores = []
-    for text_pair in texts:
-        t1, t2 = text_pair
-        t1_toks = word_tokenize(t1.lower())
-        t2_toks = word_tokenize(t2.lower())
-        try:
-            nist_ab = sentence_nist([t1_toks], t2_toks)
-        except ZeroDivisionError:
-            nist_ab = 0
-        try:
-            nist_ba = sentence_nist([t2_toks], t1_toks)
-        except ZeroDivisionError:
-            nist_ba = 0
-        # assert nist_ab == nist_ba, f'NIST is not symmetrical! Got {dist_ab} and {dist_ba}'
-        scores.append(nist_ab + nist_ba)
-    score = pearsonr(scores, labels)[0]
-    print(f'NIST correlation: {score:.03f}')
-    """
-
-    # BLEU
-    """
-    warnings.filterwarnings('ignore')
-    scores = []
-    sf = SmoothingFunction()
-    for text_pair in texts:
-        t1, t2 = text_pair
-        t1_toks = word_tokenize(t1.lower())
-        t2_toks = word_tokenize(t2.lower())
-        try:
-            bleu_ab = sentence_bleu([t1_toks], t2_toks, smoothing_function=sf.method0)
-        except ZeroDivisionError:
-            bleu_ab = 0
-        try:
-            bleu_ba = sentence_bleu([t2_toks], t1_toks, smoothing_function=sf.method0)
-        except ZeroDivisionError:
-            bleu_ba = 0
-        # assert bleu_ab == bleu_ba, f'NIST is not symmetrical! Got {dist_ab} and {dist_ba}'
-        scores.append(bleu_ab + bleu_ba)
-    score = pearsonr(scores, labels)[0]
-    print(f'BLEU correlation: {score:.03f}')
-    """
-
-    # Edit Dist
-    """
-    scores = []
+    t1_lows = []
+    t2_lows = []
+    t1_toks = []
+    t2_toks = []
     for text_pair in texts:
         t1, t2 = text_pair
         t1_low = t1.lower()
         t2_low = t2.lower()
-        dist_ab = edit_distance(t1_low, t2_low)
-        # dist_ba = edit_distance(t2_low, t1_low)
-        # assert dist_ab == dist_ba, f'Edit Distance is not symmetrical! Got {dist_ab} and {dist_ba}'
-        scores.append(dist_ab)
-    score = pearsonr(scores, labels)[0]
-    print(f'Edit Distance correlation: {score:.03f}')
-    """
+        t1_tok = word_tokenize(t1_low)
+        t2_tok = word_tokenize(t2_low)
+        t1_lows.append(t1_low)
+        t2_lows.append(t2_low)
+        t1_toks.append(t1_tok)
+        t2_toks.append(t2_tok)
 
-    # WER
-    """
-    scores = []
-    for text_pair in texts:
-        t1, t2 = text_pair
-        t1_toks = word_tokenize(t1.lower())
-        t2_toks = word_tokenize(t2.lower())
-        wer_ab = edit_distance(t1_toks, t2_toks)/len(t1_toks)
-        wer_ba = edit_distance(t2_toks, t1_toks)/len(t2_toks)
-        # assert len(t1_toks) == len(t2_toks), 'Word Error Rate is not symmetrical! Number of words varies'
-        scores.append(wer_ab + wer_ba)
-    score = pearsonr(scores, labels)[0]
-    print(f'Word Error Rate correlation: {score:.03f}')
-    """
+    def nist_calc():
+        scores = []
+        for i in range(len(texts)):
+            try:
+                nist_ab = sentence_nist([t1_toks[i]], t2_toks[i])
+            except ZeroDivisionError:
+                nist_ab = 0
+            try:
+                nist_ba = sentence_nist([t2_toks[i]], t1_toks[i])
+            except ZeroDivisionError:
+                nist_ba = 0
+            # assert nist_ab == nist_ba, f'NIST is not symmetrical! Got {dist_ab} and {dist_ba}'
+            scores.append(nist_ab + nist_ba)
+        return scores
 
-    # LCS
-    lengths = []
-    for text_pair in texts:
-        t1, t2 = text_pair
-        t1_low = t1.lower()
-        t2_low = t2.lower()
-        LCS_ab = (
-            SequenceMatcher(None, t1_low, t2_low)
-            .find_longest_match(0, len(t1_low), 0, len(t2_low))
-            .size
-        )
-        """
-        LCS_ba = (
-            SequenceMatcher(None, t2_low, t1_low)
-            .find_longest_match(0, len(t2_low), 0, len(t1_low))
-            .size
-        )
-        """
-        # assert LCS_ab == LCS_ba, f'Longest Common Substring is not symmetrical! Got {LCS_ab} and {LCS_ba}'
-        lengths.append(LCS_ab)
-    score = pearsonr(lengths, labels)[0]
-    print(f'Longest Common Substring correlation: {score:.03f}')
+    def bleu_calc():
+        warnings.filterwarnings('ignore')
+        scores = []
+        sf = SmoothingFunction()
+        for i in range(len(texts)):
+            try:
+                bleu_ab = sentence_bleu([t1_toks[i]], t2_toks[i], smoothing_function=sf.method0)
+            except ZeroDivisionError:
+                bleu_ab = 0
+            try:
+                bleu_ba = sentence_bleu([t2_toks[i]], t1_toks[i], smoothing_function=sf.method0)
+            except ZeroDivisionError:
+                bleu_ba = 0
+            # assert bleu_ab == bleu_ba, f'NIST is not symmetrical! Got {dist_ab} and {dist_ba}'
+            scores.append(bleu_ab + bleu_ba)
+        return scores
 
-    # define a function for calculating either NIST or BLEU metric
-    def nist_or_bleu_calc(text_pair, metric):
-        print('Function is not ready yet')
+    def wer_calc():
+        scores = []
+        for i in range(len(texts)):
+            wer_ab = edit_distance(t1_toks[i], t2_toks[i])/len(t1_toks[i])
+            wer_ba = edit_distance(t2_toks[i], t1_toks[i])/len(t2_toks[i])
+            # assert len(t1_toks) == len(t2_toks), 'Word Error Rate is not symmetrical! Number of words varies'
+            scores.append(wer_ab + wer_ba)
+        return scores
+
+    def lcs_calc():
+        scores = []
+        for i in range(len(texts)):
+            LCS_ab = (
+                SequenceMatcher(None, t1_lows[i], t2_lows[i])
+                .find_longest_match(0, len(t1_lows[i]), 0, len(t2_lows[i]))
+                .size
+            )
+            # LCS_ba = (
+            #     SequenceMatcher(None, t2_low, t1_low)
+            #     .find_longest_match(0, len(t2_low), 0, len(t1_low))
+            #     .size
+            # )
+            # assert LCS_ab == LCS_ba, f'Longest Common Substring is not symmetrical! Got {LCS_ab} and {LCS_ba}'
+            scores.append(LCS_ab)
+        return scores
+
+    def edit_dist_calc():
+        scores = []
+        for i in range(len(texts)):
+            dist_ab = edit_distance(t1_lows[i], t2_lows[i])
+            # dist_ba = edit_distance(t2_low, t1_low)
+            # assert dist_ab == dist_ba, f'Edit Distance is not symmetrical! Got {dist_ab} and {dist_ba}'
+            scores.append(dist_ab)
+        return scores
 
     # define a function for calculating each of the metrics for each text pair
     def metric_calc(metric):
-        if metric == 'NIST' or metric == 'BLEU':
-            scores = [nist_or_bleu_calc(text_pair, metric) for text_pair in texts]
-
-
+        if metric == 'NIST':
+            scores = nist_calc()
+        elif metric == 'BLEU':
+            scores = bleu_calc()
+        elif metric == 'WER':
+            scores  = wer_calc()
+        elif metric == 'LCS':
+            scores = lcs_calc()
+        else:
+            scores = edit_dist_calc()
+        return scores
 
     # TODO 3: Calculate pearson r between each metric and the STS labels and report in the README.
     # Sample code to print results. You can alter the printing as you see fit. It is most important to put the results
     # in a table in the README
-    print(f"Semantic textual similarity for {sts_data}\n")
+    print(f'Semantic textual similarity for {sts_data}\n')
     for metric_name in score_types:
         metric_scores = metric_calc(metric_name)
-        score = pearsonr(metric_scores, labels)
-        print(f"{metric_name} correlation: {score:.03f}")
+        score = pearsonr(metric_scores, labels)[0]
+        print(f'{metric_name} correlation: {score:.03f}')
 
     # TODO 4: Complete writeup as specified by TODOs in README (describe metrics; show usage)
 
