@@ -34,7 +34,6 @@ def main(sts_data):
     score_types = ["NIST", "BLEU", "Word Error Rate", "Longest common substring", "Edit Distance"]
 
     # NIST
-    """
     scores = []
     for text_pair in texts:
         t1, t2 = text_pair
@@ -48,11 +47,9 @@ def main(sts_data):
             nist_ba = sentence_nist([t2_toks], t1_toks)
         except ZeroDivisionError:
             nist_ba = 0
-        # assert nist_ab == nist_ba, f'NIST is not symmetrical! Got {nist_ab} and {nist_ba}'
-        scores.append(nist_ab)
+        scores.append(nist_ab + nist_ba)
     score = pearsonr(scores, labels)[0]
     print(f'NIST correlation: {score:.03f}')
-    """
 
     # BLEU
     """
@@ -92,6 +89,7 @@ def main(sts_data):
     """
 
     # WER
+    """
     scores = []
     for text_pair in texts:
         t1, t2 = text_pair
@@ -102,6 +100,7 @@ def main(sts_data):
         scores.append(wer_ab + wer_ba)
     score = pearsonr(scores, labels)[0]
     print(f'Word Error Rate correlation: {score:.03f}')
+    """
 
     # LCS
     """
