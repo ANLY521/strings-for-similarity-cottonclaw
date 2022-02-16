@@ -199,10 +199,15 @@ def main(sts_data):
     # TODO 3: Calculate pearson r between each metric and the STS labels and report in the README.
     # Sample code to print results. You can alter the printing as you see fit. It is most important to put the results
     # in a table in the README
+    # output the partition of the data set that is being used to calculate STS
     print(f'Semantic textual similarity for {sts_data}\n')
+    # for each metric in the list of metrics:
     for metric_name in score_types:
+        # call "metric_calc" to determine scores based on the current metric
         metric_scores = metric_calc(metric_name)
+        # calculate Pearson r between the current metric and the STS labels
         score = pearsonr(metric_scores, labels)[0]
+        # output Pearson r between the current metric and the STS labels
         print(f'{metric_name} correlation: {score:.03f}')
 
     # TODO 4: Complete writeup as specified by TODOs in README (describe metrics; show usage)
