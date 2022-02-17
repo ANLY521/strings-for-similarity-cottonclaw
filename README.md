@@ -6,7 +6,7 @@ Though semantics go beyond the surface representations seen in strings, some of 
 metrics constitute a good benchmark system for detecting STS.
 
 Data is from the [STS benchmark](http://ixa2.si.ehu.es/stswiki/index.php/STSbenchmark).
-
+<br><br>
 
 
 ## Metrics
@@ -82,6 +82,7 @@ Feb. 2022.</li>
 <li>Jurafsky and Martin, Chapter 6</li>
 <li>Lecture Slides - Module 3, Week 1</li>
 </ul>
+<br><br>
 
 
 
@@ -94,6 +95,7 @@ Feb. 2022.</li>
 | WER       | -0.353 | -0.452 | -0.358 |
 | LCS       | 0.362 | 0.468 | 0.347 |
 | Edit Dist | 0.033 | -0.175 | -0.039 |
+<br><br>
 
 
 
@@ -104,6 +106,7 @@ Feb. 2022.</li>
 <li>Development Set Correlations: <code>python sts_pearson.py --sts_data stsbenchmark/sts-dev.csv</code></li>
 <li>Testing Set Correlations: <code>python sts_pearson.py --sts_data stsbenchmark/sts-test.csv</code></li>
 </ul>
+<br><br>
 
 
 
