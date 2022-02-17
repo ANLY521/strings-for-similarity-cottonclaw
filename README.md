@@ -69,7 +69,7 @@ is symmetrical, so the value for this approach to configuring
 string similarity is irrelevant of the text that is assigned
 as the reference.
 <br><br>
-<h3>Sources for Descriptions:</h3>
+<h3>Sources for Descriptions</h3>
 * Doddington, George. "Automatic Evaluation of Machine
   Translation Quality Using N-Gram Co-Occurrence Statistics."
   <i>Proceedings of the Second International Conference on
