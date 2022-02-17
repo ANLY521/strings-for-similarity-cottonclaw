@@ -81,20 +81,15 @@ Feb. 2022.</li>
 <li>Lecture Slides - Module 3, Week 1</li>
 </ul>
 
+## Correlations:
 
-
-**TODO:** Fill in the correlations. Expected output for DEV is provided; it is ok if your actual result
-varies slightly due to preprocessing/system difference, but the difference should be quite small.
-
-**Correlations:**
-
-Metric | Train | Dev | Test 
------- | ----- | --- | ----
-NIST | (fill me) | 0.593 | (fill me)
-BLEU | (fill me) | 0.433 | (fill me)
-WER | (fill me) | -0.452| (fill me)
-LCS | (fill me) | 0.468| (fill me)
-Edit Dist | (fill me) | -0.175| (fill me)
+| Metric    | Train | Dev | Test |
+|-----------|-------| --- | ---- |
+| NIST      | 0.496 | 0.593 | 0.475 |
+| BLEU      | 0.371 | 0.433 | 0.353 |
+| WER       | -0.353 | -0.452 | -0.358 |
+| LCS       | 0.362 | 0.468 | 0.347 |
+| Edit Dist | 0.033 | -0.175 | -0.039 |
 
 **TODO:**
 Show usage of the homework script with command line flags (see example under lab, week 1).
