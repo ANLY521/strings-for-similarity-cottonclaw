@@ -7,6 +7,8 @@ metrics constitute a good benchmark system for detecting STS.
 
 Data is from the [STS benchmark](http://ixa2.si.ehu.es/stswiki/index.php/STSbenchmark).
 
+
+
 ## Metrics
 
 Below is a brief description of the metrics used to evaluate
@@ -81,6 +83,8 @@ Feb. 2022.</li>
 <li>Lecture Slides - Module 3, Week 1</li>
 </ul>
 
+
+
 ## Correlations:
 
 | Metric    | Train | Dev | Test |
@@ -91,8 +95,16 @@ Feb. 2022.</li>
 | LCS       | 0.362 | 0.468 | 0.347 |
 | Edit Dist | 0.033 | -0.175 | -0.039 |
 
-**TODO:**
-Show usage of the homework script with command line flags (see example under lab, week 1).
+
+
+## Example Usage:
+
+<ul>
+<li>Training Set Correlations: <code>python sts_pearson.py --sts_data stsbenchmark/sts-train.csv</code></li>
+<li>Development Set Correlations: <code>python sts_pearson.py --sts_data stsbenchmark/sts-dev.csv</code></li>
+<li>Testing Set Correlations: <code>python sts_pearson.py --sts_data stsbenchmark/sts-test.csv</code></li>
+</ul>
+
 
 
 ## lab, week 1: sts_nist.py
@@ -103,9 +115,13 @@ Example usage:
 
 `python sts_nist.py --sts_data stsbenchmark/sts-dev.csv`
 
+
+
 ## lab, week 2: sts_tfidf.py
 
 Calculate pearson's correlation of semantic similarity with TFIDF vectors for text.
+
+
 
 ## homework, week 1: sts_pearson.py
 
