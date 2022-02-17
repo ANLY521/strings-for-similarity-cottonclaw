@@ -7,8 +7,65 @@ metrics constitute a good benchmark system for detecting STS.
 
 Data is from the [STS benchmark](http://ixa2.si.ehu.es/stswiki/index.php/STSbenchmark).
 
-**TODO:**
-Describe each metric in ~ 1 sentence
+## Metrics
+
+Below is a brief description of the metrics used to evaluate
+string similarity between sentences contained in various
+partitions of the STS benchmark data set.
+
+* <h3>NIST</h3>
+NIST is a formula used for Machine Translation (MT) evaluation.
+This metric was developed by the National Institute of
+Standards and Technology (NIST), but it actually derives from
+an MT evaluation metric, called Bilingual Evaluation
+Understudy (BLEU), that was developed by the International
+Business Machines Corporation (IBM). Although describing the
+formula in words is beyond the scope of this description, the
+computation for NIST is largely dependent on the percentage of
+N-grams in a translation string that also occur in the
+corresponding reference string.
+* <h3>BLEU</h3>
+As mentioned above, BLEU is an MT evaluation metric developed
+by IBM that predates the formula that NIST uses. Like NIST,
+BLEU takes into consideration the fraction of translation
+N-grams that match the set of N-grams in the corresponding
+reference text. However, unlike NIST, BLEU gives equal
+weighting to N-grams, whereas the weighting in NIST is partial
+to N-grams that have a lower frequency in the data set.
+* <h3>Edit Distance</h3>
+Edit Distance, also known as Levenshtein Distance, is a string
+similarity metric that was developed by Vladimir Levenshtein
+in 1966. This metric quantifies the similarity between two
+strings by assessing the number of character-level deletions,
+insertions, and substitutions that would be required to
+transform one of the strings into the other. Unlike NIST and
+BLEU, Edit Distance is symmetrical, so the quantity for this
+metric is independent of the string that is chosen to be
+transformed.
+* <h3>WER</h3>
+Word Error Rate (WER) is another technique for calculating the
+similarity between two strings. This method works much like
+edit distance, but rather than evaluating similarity at the
+<i>character</i>-level, the computation for WER determines the
+number of <i>word</i>-level deletions, insertions, and
+substitutions that would be required to transform a reference
+string into a hypothesis string. To fully compute WER, this
+word-level edit distance is then divided by the number of
+words in the reference string. Since the number of words
+between two strings often varies, WER is not symmetrical;
+therefore, unlike Edit Distance, WER depends on the string
+that is chosen to be transformed.
+* <h3>LCS</h3>
+Longest Common Substring (LCS) is yet another strategy for
+judging the similarity between a set of strings. As the name
+implies, LCS is calculated by identifying the length of the
+longest consecutive character string that is shared between a
+reference text and a hypothesis text. Like Edit Distance, LCS
+is symmetrical, so the value for this approach to configuring
+string similarity is irrelevant of the text that is assigned
+as the reference.
+
+
 
 **TODO:** Fill in the correlations. Expected output for DEV is provided; it is ok if your actual result
 varies slightly due to preprocessing/system difference, but the difference should be quite small.
