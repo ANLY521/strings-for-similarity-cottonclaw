@@ -69,6 +69,16 @@ is symmetrical, so the value for this approach to configuring
 string similarity is irrelevant of the text that is assigned
 as the reference.
 <br><br>
+<h3>Sources for Descriptions:</h3>
+* Doddington, George. "Automatic Evaluation of Machine
+  Translation Quality Using N-Gram Co-Occurrence Statistics."
+  <i>Proceedings of the Second International Conference on
+  Human Language Technology Research,</i> 2002, pp. 138-145,
+  https://dl.acm.org/doi/10.5555/1289189.1289273. Accessed 16
+  Feb. 2022.
+* Jurafsky and Martin, Chapter 6
+* Lecture Slides - Module 3, Week 1
+<br><br>
 
 
 
