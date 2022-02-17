@@ -86,7 +86,7 @@ Feb. 2022.</li>
 
 
 
-## Correlations:
+## Correlations
 
 | Metric    | Train | Dev | Test |
 |-----------|-------| --- | ---- |
@@ -99,7 +99,7 @@ Feb. 2022.</li>
 <br><br>
 
 
-## Example Usage:
+## Example Usage
 
 <ul>
 <li>Training Set Correlations: <code>python sts_pearson.py --sts_data stsbenchmark/sts-train.csv</code></li>
