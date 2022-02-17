@@ -12,8 +12,8 @@ Data is from the [STS benchmark](http://ixa2.si.ehu.es/stswiki/index.php/STSbenc
 Below is a brief description of the metrics used to evaluate
 string similarity between sentences contained in various
 partitions of the STS benchmark data set.
-
-* <h3>NIST</h3>
+<br><br>
+<h3>NIST</h3>
 NIST is a formula used for Machine Translation (MT) evaluation.
 This metric was developed by the National Institute of
 Standards and Technology (NIST), but it actually derives from
@@ -25,7 +25,7 @@ computation for NIST is largely dependent on the percentage of
 N-grams in a translation string that also occur in the
 corresponding reference string.
 <br><br>
-* <h3>BLEU</h3>
+<h3>BLEU</h3>
 As mentioned above, BLEU is an MT evaluation metric developed
 by IBM that predates the formula that NIST uses. Like NIST,
 BLEU takes into consideration the fraction of translation
@@ -34,7 +34,7 @@ reference text. However, unlike NIST, BLEU gives equal
 weighting to N-grams, whereas the weighting in NIST is partial
 to N-grams that have a lower frequency in the data set.
 <br><br>
-* <h3>Edit Distance</h3>
+<h3>Edit Distance</h3>
 Edit Distance, also known as Levenshtein Distance, is a string
 similarity metric that was developed by Vladimir Levenshtein
 in 1966. This metric quantifies the similarity between two
@@ -45,7 +45,7 @@ BLEU, Edit Distance is symmetrical, so the quantity for this
 metric is independent of the string that is chosen to be
 transformed.
 <br><br>
-* <h3>WER</h3>
+<h3>WER</h3>
 Word Error Rate (WER) is another technique for calculating the
 similarity between two strings. This method works much like
 edit distance, but rather than evaluating similarity at the
@@ -59,7 +59,7 @@ between two strings often varies, WER is not symmetrical;
 therefore, unlike Edit Distance, WER depends on the string
 that is chosen to be transformed.
 <br><br>
-* <h3>LCS</h3>
+<h3>LCS</h3>
 Longest Common Substring (LCS) is yet another strategy for
 judging the similarity between a set of strings. As the name
 implies, LCS is calculated by identifying the length of the
